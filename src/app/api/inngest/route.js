@@ -11,3 +11,8 @@ export const { GET, POST, PUT } = serve({
     
   ],
 });
+
+// Ensure this route runs in the Node.js runtime; Prisma is not supported in Edge.
+export const runtime = "nodejs";
+// Prevent static optimization; this route must be evaluated at runtime.
+export const dynamic = "force-dynamic";

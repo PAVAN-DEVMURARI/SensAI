@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm run vercel-build",
+  "installCommand": "npm ci",
+  "ignoredBuildStep": "echo Using custom build to ensure Prisma Client generation",
+  "framework": "nextjs"
+}
