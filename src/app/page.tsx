@@ -1,7 +1,7 @@
 import HeroSection from "@/components/ui/HeroSection";
 import { features } from "@/data/features";
-import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from "@/components/ui/card";
-import { howItWorks } from "@/data/howItWorks";
+import { Card, CardContent } from "@/components/ui/card";
+import { howItWorks } from "@/data/howitworks";
 import { testimonial } from "@/data/testimonial";
 import Image from "next/image";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button";
 import { ChevronDown, FileText, GraduationCap, LayoutDashboard, PenBox, StarsIcon } from 'lucide-react';
-import { DropdownMenu , DropdownMenuTrigger , DropdownMenuSeparator , DropdownMenuLabel , DropdownMenuContent , DropdownMenuItem } from '@radix-ui/react-dropdown-menu';
+import { DropdownMenu , DropdownMenuTrigger , DropdownMenuContent , DropdownMenuItem } from '@radix-ui/react-dropdown-menu';
 import { checkUser } from '@/lib/checkUser'; 
 // import { Link } from 'lucide-react';
 

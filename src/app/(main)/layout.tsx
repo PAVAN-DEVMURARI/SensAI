@@ -1,4 +1,4 @@
-import React, { Children } from 'react'
+import React from 'react'
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
     //redirect to onboarding

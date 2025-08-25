@@ -1,5 +1,4 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-import { RedirectToSignIn } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 
 const isprotectedRoute = createRouteMatcher([
