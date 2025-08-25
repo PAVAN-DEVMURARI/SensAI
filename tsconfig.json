@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "actions/user.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "actions/user.js", "src/app/(main)/interview/mock/_components/Quiz.jsx", "src/app/(main)/interview/mock/page.jsx"],
   "exclude": ["node_modules"]
 }

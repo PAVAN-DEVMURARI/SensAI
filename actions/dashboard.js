@@ -31,7 +31,26 @@ export const generateAIInsights = async (industry) => {
         const response = result.response;
         const text = response.text()
         const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
-        return JSON.parse(cleanedText);
+        const raw = JSON.parse(cleanedText);
+        const normalize = (val, enums, fallback) => {
+          if (!val) return fallback;
+          const v = String(val).toUpperCase();
+          if (enums.includes(v)) return v;
+          // heuristics
+          if (v.startsWith("HI")) return "HIGH";
+          if (v.startsWith("ME")) return "MEDIUM";
+          if (v.startsWith("LO")) return "LOW";
+          if (v.startsWith("PO")) return "POSITIVE";
+          if (v.startsWith("NEU")) return "NEUTRAL";
+          if (v.startsWith("NEGA")) return "NEGATIVE";
+          return fallback;
+        };
+        return {
+          ...raw,
+          demandLevel: normalize(raw.demandLevel, ["HIGH","MEDIUM","LOW"], "MEDIUM"),
+          marketOutlook: normalize(raw.marketOutlook, ["POSITIVE","NEUTRAL","NEGATIVE"], "NEUTRAL"),
+          growthRate: raw.growthRate != null ? Number(raw.growthRate) || 0 : 0,
+        };
 }
 
 export async function getIndustryInsights() {
@@ -57,7 +76,7 @@ export async function getIndustryInsights() {
     console.log("Creating industry insight for user industry:", user.industry);
     
     try {
-      const insights = await generateAIInsights(user.industry);
+  const insights = await generateAIInsights(user.industry);
       
       const industryInsight = await db.industryInsight.create({
         data: {

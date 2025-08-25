@@ -1,8 +1,20 @@
 "use server"
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
-import { MarketOutlook } from "@prisma/client";
 import { generateAIInsights } from "./dashboard";
+
+const normalize = (val, enums, fallback) => {
+    if (!val) return fallback;
+    const v = String(val).toUpperCase();
+    if (enums.includes(v)) return v;
+    if (v.startsWith("HI")) return "HIGH";
+    if (v.startsWith("ME")) return "MEDIUM";
+    if (v.startsWith("LO")) return "LOW";
+    if (v.startsWith("PO")) return "POSITIVE";
+    if (v.startsWith("NEU")) return "NEUTRAL";
+    if (v.startsWith("NEGA")) return "NEGATIVE";
+    return fallback;
+};
 
 export async function updateUser(data){
     const { userId } = await auth();
@@ -36,7 +48,13 @@ export async function updateUser(data){
                 if (!industryInsight) {
                     console.log("🤖 Generating AI insights for industry:", data.industry);
                     try {
-                        const insights = await generateAIInsights(data.industry);
+                        const raw = await generateAIInsights(data.industry);
+                        const insights = {
+                            ...raw,
+                            demandLevel: normalize(raw.demandLevel, ["HIGH","MEDIUM","LOW"], "MEDIUM"),
+                            marketOutlook: normalize(raw.marketOutlook, ["POSITIVE","NEUTRAL","NEGATIVE"], "NEUTRAL"),
+                            growthRate: raw.growthRate != null ? Number(raw.growthRate) || 0 : 0,
+                        };
                         console.log("✅ AI insights generated successfully");
                         
                         industryInsight = await tx.industryInsight.create({
@@ -83,7 +101,13 @@ export async function updateUser(data){
                     if (hasDefaultSkills) {
                         console.log("🔄 Updating existing industry insight with AI-generated skills");
                         try {
-                            const insights = await generateAIInsights(data.industry);
+                            const raw = await generateAIInsights(data.industry);
+                            const insights = {
+                                ...raw,
+                                demandLevel: normalize(raw.demandLevel, ["HIGH","MEDIUM","LOW"], "MEDIUM"),
+                                marketOutlook: normalize(raw.marketOutlook, ["POSITIVE","NEUTRAL","NEGATIVE"], "NEUTRAL"),
+                                growthRate: raw.growthRate != null ? Number(raw.growthRate) || 0 : 0,
+                            };
                             console.log("✅ AI insights generated for existing industry");
                             
                             industryInsight = await tx.industryInsight.update({

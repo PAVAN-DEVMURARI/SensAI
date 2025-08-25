@@ -1,5 +1,11 @@
 import { Inngest } from "inngest";
 
-// Create a client to send and receive events
-export const inngest = new Inngest({ id: "Sensai" , name:"Sensai"  });
-
+export const inngest = new Inngest({
+  id: "Sensai", // Unique app ID
+  name: "Sensai",
+  credentials: {
+    gemini: {
+      apiKey: process.env.GEMINI_API_KEY,
+    },
+  },
+});
